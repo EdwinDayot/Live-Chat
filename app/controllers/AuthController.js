@@ -1,5 +1,6 @@
 var Model = require('../../src/Model.js'),
-    Logger = require('../../src/Logger.js');
+    Logger = require('../../src/Logger.js'),
+    bcrypt = require('bcrypt');
 
 var AuthController = function (app) {
     var me = this,
@@ -8,9 +9,19 @@ var AuthController = function (app) {
     me.app = app;
 
     me.login = function (req, res) {
-        User.find(function (saved) {
-            Logger.log(saved);
-            res.json(saved);
+        var hash =  bcrypt.hashSync('password', 8);
+        User.save({
+            'username' : 'Roadirsh',
+            'password' : hash
+        }, function (user) {
+            User.findOne({
+                '_id' : user._id
+            }, function (userFind) {
+                res.json(bcrypt.compareSync('not_password', userFind.password ));
+            });
+        });
+        User.find(function(users){
+            res.json(users);
         });
     };
 
