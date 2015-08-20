@@ -1,0 +1,27 @@
+{
+  "name": "LiveChat",
+  "version": "1.0.0",
+  "description": "Node + Express + Socket.io + MongoDB project",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.1",
+    "socket.io": "^1.3.6",
+    "mongodb": "^2.0.39",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edwindayot/LiveChat.git"
+  },
+  "author": "Edwin Dayot <edwin.dayot@sfr.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edwindayot/LiveChat/issues"
+  },
+  "homepage": "https://github.com/edwindayot/LiveChat"
+}
