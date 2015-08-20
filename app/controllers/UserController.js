@@ -1,8 +1,10 @@
 var Model = require('../../src/Model.js');
 
-var UserController = function (req, res) {
+var UserController = function (app) {
     var me = this,
         User = new Model('User');
+
+    me.app = app;
 
     me.index = function (req, res) {
 
