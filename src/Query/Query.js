@@ -480,7 +480,7 @@ var Builder = require('./Builder.js'),
                 Builder.collections(self.name, function (collection) {
                     if (data['_id'] != undefined) {
                         if (updatedAt == null) {
-                            data['updatedAt'] = new Date().getTime();
+                            data['updatedAt'] = new Date();
                         } else {
                             data['updatedAt'] = updatedAt;
                         }
@@ -506,7 +506,7 @@ var Builder = require('./Builder.js'),
                         });
                     } else {
                         if (createdAt == null) {
-                            data['createdAt'] = new Date().getTime();
+                            data['createdAt'] = new Date();
                         } else {
                             data['createdAt'] = createdAt;
                         }
