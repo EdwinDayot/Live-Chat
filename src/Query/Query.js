@@ -46,6 +46,20 @@ var Builder = require('./Builder.js'),
         self.relations = [];
 
         /**
+         * Sort By
+         *
+         * @type {{}}
+         */
+        self.sortBy = {};
+
+        /**
+         * Group By
+         *
+         * @type {{}}
+         */
+        self.groupBy = {};
+
+        /**
          * Created At change
          *
          * @type {null}
@@ -109,6 +123,31 @@ var Builder = require('./Builder.js'),
         };
 
         /**
+         * Sort by field
+         *
+         * @param field
+         * @param way
+         * @returns {Query}
+         */
+        self.sort = function (field, way) {
+            self.sortBy[field] = way;
+
+            return self;
+        };
+
+        /**
+         * Group by field
+         *
+         * @param groups
+         * @returns {Query}
+         */
+        self.group = function (groups) {
+            self.groupBy = groups;
+
+            return self;
+        };
+
+        /**
          * Set the created at date
          *
          * @param date
@@ -164,8 +203,14 @@ var Builder = require('./Builder.js'),
                 errorCallback = (typeof conditions == 'function') ? successCallback : errorCallback;
             }
 
-            (function (fields, limit, skip, relations, conditions) {
+            (function (groupBy, sortBy, fields, limit, skip, relations, conditions) {
+                
+                /**
+                 * Empty variables to prevent conflicts of queries
+                 */
                 self.fields = {};
+                self.sortBy = {};
+                self.groupBy = {};
                 self.limitNumber = 1000;
                 self.skipNumber = 0;
                 self.relations = [];
@@ -194,8 +239,24 @@ var Builder = require('./Builder.js'),
 
                         return true;
                     } else {
-                        collection.find(conditions, fields)
-                            .limit(limit)
+                        var find = null;
+
+                        if (Object.keys(groupBy).length > 0) {
+                            var aggregate = [];
+                            if (Object.keys(conditions).length > 0) {
+                                aggregate.push(conditions);
+                            }
+                            aggregate.push({ $group: groupBy });
+                            find = collection.aggregate(aggregate, fields);
+                        } else {
+                            find = collection.find(conditions, fields);
+                        }
+
+                        if (Object.keys(sortBy).length > 0) {
+                            find.sort(sortBy);
+                        }
+
+                        find.limit(limit)
                             .skip(skip)
                             .toArray(function (error, results) {
                                 if (error) {
@@ -347,7 +408,7 @@ var Builder = require('./Builder.js'),
                             });
                     }
                 });
-            })(self.fields, self.limitNumber, self.skipNumber, self.relations, conditions);
+            })(self.groupBy, self.sortBy, self.fields, self.limitNumber, self.skipNumber, self.relations, conditions);
 
             return self;
         };
