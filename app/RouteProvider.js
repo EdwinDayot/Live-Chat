@@ -10,6 +10,7 @@ var RouteProvider = function (app) {
     me.app = app;
 
     me.app.get('/login', AuthController.login);
+    me.app.post('/signup', AuthController.signup);
 
     me.app.io.on('connection', function (socket) {
         socket.on('message', function (data) {

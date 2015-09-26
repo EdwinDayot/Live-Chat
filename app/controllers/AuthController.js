@@ -9,20 +9,20 @@ var AuthController = function (app) {
     me.app = app;
 
     me.login = function (req, res) {
-        var hash =  bcrypt.hashSync('password', 8);
-        User.save({
-            'username' : 'Roadirsh',
-            'password' : hash
-        }, function (user) {
-            User.findOne({
-                '_id' : user._id
-            }, function (userFind) {
-                res.json(bcrypt.compareSync('not_password', userFind.password ));
+
+    };
+    me.signup = function(req, res)
+    {
+        if(req.body.password == req.body.confirmation_password)
+        {
+            var hash = bcrypt.hashSync(req.body.password, 12);
+            User.save({
+                'username' : req.body.email,
+                'password' : hash
+            }, function(data){
+                res.json(data);
             });
-        });
-        User.find(function(users){
-            res.json(users);
-        });
+        }
     };
 
     return me;

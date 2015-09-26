@@ -8,6 +8,9 @@ app.io = require('socket.io')(http);
 
 app.use(express.static('./public'));
 
+app.set('views', __dirname + '/views');
+
+
 app.disable('x-powered-by');
 
 Application = new Application(app).launch();

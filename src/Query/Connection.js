@@ -7,7 +7,6 @@ var db = require('../../config/db.json'),
 
         self.getInstance = function (callback) {
 
-            console.log(db);
             if (self.instance == null) {
                 MongoClient.connect(db.host + '/' + db.dbname, function (error, database) {
                     if (db.auth) {
