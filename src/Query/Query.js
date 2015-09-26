@@ -519,7 +519,7 @@ var Builder = require('./Builder.js'),
 
                         collection.createIndex({ createdAt: 1 });
                         collection.createIndex({ updatedAt: 1 });
-                        collection.insert(data, function (error, result) {
+                        collection.insert(Object.create(data), function (error, result) {
                             if (error) {
                                 if (errorCallback != undefined) {
                                     errorCallback(result, error);
