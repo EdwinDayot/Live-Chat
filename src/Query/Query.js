@@ -489,7 +489,7 @@ var Builder = require('./Builder.js'),
                             data['createdAt'] = createdAt;
                         }
 
-                        collection.findOneAndUpdate({ '_id': data['_id'] }, data, function (error, result) {
+                        collection.findOneAndUpdate({ '_id': data['_id'] }, Object.create(data), function (error, result) {
                             if (error) {
                                 if (errorCallback != undefined) {
                                     errorCallback(result, error);
